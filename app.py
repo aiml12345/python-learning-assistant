@@ -69,6 +69,8 @@ for message in st.session_state.messages:
 user_question = st.chat_input("Ask a Python question...")
 
 if user_question:
+    previous_messages = list(st.session_state.messages)
+
     # Add user message to history
     st.session_state.messages.append({"role": "user", "content": user_question})
     
@@ -78,7 +80,7 @@ if user_question:
     
     # Show spinner while AI thinks (only for API calls)
     with st.spinner("🤔 PyGuide is thinking..."):
-        bot_response = get_response(user_question)
+        bot_response = get_response(user_question, history=previous_messages)
     
     # Add bot response to history
     st.session_state.messages.append({"role": "assistant", "content": bot_response})
